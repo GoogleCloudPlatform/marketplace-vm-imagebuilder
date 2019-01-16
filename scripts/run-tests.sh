@@ -109,4 +109,3 @@ echo "--> Deleting the temporary instance (${INSTANCE}) ..."
 gcloud -q compute instances delete "${INSTANCE}" --zone="${ZONE}"
 
 exit ${lcstatus}
-
