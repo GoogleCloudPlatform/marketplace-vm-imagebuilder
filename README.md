@@ -26,7 +26,7 @@ This is not an officially supported Google product.
 ### Clone this repository
 
 ```shell
-git clone https://github.com/GoogleCloudPlatform/imagebuilder.git
+git clone https://github.com/GoogleCloudPlatform/marketplace-vm-imagebuilder.git
 cd imagebuilder
 ```
 
