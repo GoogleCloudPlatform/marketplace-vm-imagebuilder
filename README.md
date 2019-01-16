@@ -27,7 +27,7 @@ This is not an officially supported Google product.
 
 ```shell
 git clone https://github.com/GoogleCloudPlatform/marketplace-vm-imagebuilder.git
-cd imagebuilder
+cd marketplace-vm-imagebuilder
 ```
 
 ### Build the Docker image
