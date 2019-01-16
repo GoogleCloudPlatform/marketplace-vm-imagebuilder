@@ -1,0 +1,35 @@
+timeout: 600s
+steps:
+
+- id: Build imagebuilder
+  name: gcr.io/cloud-builders/docker
+  args:
+  - build
+  - --tag=imagebuilder
+  - .
+
+- id: Download Service Account Key
+  name: gcr.io/cloud-builders/gsutil
+  waitFor:
+  - '-'
+  args:
+  - cp
+  - ${_SERVICE_ACCOUNT_JSON_GCS}
+  - service-account.json
+
+- id: Build sample-app
+  name: gcr.io/cloud-builders/docker
+  waitFor:
+  - Build imagebuilder
+  - Download Service Account Key
+  args:
+  - run
+  - --env=PROJECT=${PROJECT_ID}
+  - --env=BUCKET=${_LOGS_BUCKET}
+  - --env=SOLUTION_NAME=sample-app
+  - --env=RUN_TESTS=true
+  - --volume=/workspace/examples/chef:/chef:ro
+  - --volume=/workspace/examples/packer:/packer:ro
+  - --volume=/workspace/examples/tests:/tests:ro
+  - --volume=/workspace/service-account.json:/service-account.json:ro
+  - imagebuilder
