@@ -33,3 +33,13 @@ steps:
   - --volume=/workspace/examples/tests:/tests:ro
   - --volume=/workspace/service-account.json:/service-account.json:ro
   - imagebuilder
+
+- id: Add Alias Tag
+  name: gcr.io/cloud-builders/docker
+  args:
+  - tag
+  - imagebuilder
+  - gcr.io/${PROJECT_ID}/vm/imagebuilder:latest
+
+images:
+- gcr.io/${PROJECT_ID}/vm/imagebuilder:latest
