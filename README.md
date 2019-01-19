@@ -1,5 +1,7 @@
 # Imagebuilder
 
+DO NOT SUBMIT
+
 ## About
 
 This repository hosts Imagebuilder, a tool to automate the build process of VM images for Google Cloud Platform (GCP). Imagebuilder uses Chef cookbooks and Packer to run a VM instance on GCP, install additional software, configure it and create a VM image cleaned up from user sensitive data.
