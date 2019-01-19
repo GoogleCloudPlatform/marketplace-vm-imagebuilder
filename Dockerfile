@@ -28,10 +28,10 @@ ENV USE_INTERNAL_IP false
 ENV RUN_TESTS false
 ENV ATTACH_LICENSE false
 
-# Install packages.
-RUN set -eux && \
-    apt-get update && \
-    apt-get install -y \
+# Installs packages
+RUN set -eux \
+    && apt-get update \
+    && apt-get install -y \
         curl \
         gnupg2 \
         jq \
@@ -39,21 +39,36 @@ RUN set -eux && \
         python \
         unzip
 
-# Install gcloud
-RUN set -eux && \
-    export CLOUD_SDK_REPO="cloud-sdk-stretch" && \
-    echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
-    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
-    apt-get update -y && apt-get install google-cloud-sdk -y
+# Installs gcloud
+RUN set -eux \
+    && export CLOUD_SDK_REPO="cloud-sdk-stretch" \
+    && echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
+    && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - \
+    && apt-get update -y && apt-get install google-cloud-sdk -y
 
-# Install packer
-RUN set -eux && \
-    curl -O "https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip" && \
-    echo "${PACKER_SHA256} packer_${PACKER_VERSION}_linux_amd64.zip" | sha256sum -c && \
-    unzip "packer_${PACKER_VERSION}_linux_amd64.zip" && \
-    rm packer_${PACKER_VERSION}_linux_amd64.zip && \
-    mv packer /bin/packer && \
-    chmod +x /bin/packer
+# Installs Packer
+RUN set -eux \
+    # Downloads binary
+    && curl -O "https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip" \
+    # Verifies checksum
+    && echo "${PACKER_SHA256} packer_${PACKER_VERSION}_linux_amd64.zip" | sha256sum -c \
+    # Unzips binary
+    && unzip "packer_${PACKER_VERSION}_linux_amd64.zip" \
+    && rm "packer_${PACKER_VERSION}_linux_amd64.zip" \
+    # Copies binary
+    && mv packer /bin/packer \
+    && chmod +x /bin/packer \
+    # Downloads source code
+    && curl -L -o packer.tar.gz "https://github.com/hashicorp/packer/archive/v${PACKER_VERSION}.tar.gz" \
+    && mkdir -p /usr/local/src/packer \
+    && tar -xzf packer.tar.gz -C /usr/local/src/packer --strip-components=1 \
+    && rm packer.tar.gz
+
+# Downloads licenses
+RUN set -eux \
+    && mkdir -p /usr/share/imagebuilder \
+    && curl -o /usr/share/imagebuilder/packer.LICENSE "https://raw.githubusercontent.com/hashicorp/packer/v${PACKER_VERSION}/LICENSE" \
+    && curl -o /usr/share/imagebuilder/chef-solo.LICENSE "https://raw.githubusercontent.com/chef/chef/master/LICENSE"
 
 COPY scripts /imagebuilder
 
