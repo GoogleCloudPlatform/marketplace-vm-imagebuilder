@@ -50,3 +50,4 @@ steps:
 
 images:
 - gcr.io/${PROJECT_ID}/vm/imagebuilder:latest
+- gcr.io/${PROJECT_ID}/vm/imagebuilder:${COMMIT_SHA}
