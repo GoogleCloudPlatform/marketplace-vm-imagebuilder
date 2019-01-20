@@ -46,8 +46,8 @@ steps:
   args:
   - tag
   - imagebuilder
-  - gcr.io/${PROJECT_ID}/vm/imagebuilder:${COMMIT_SHA}
+  - gcr.io/${PROJECT_ID}/vm/imagebuilder:sha_${COMMIT_SHA}
 
 images:
 - gcr.io/${PROJECT_ID}/vm/imagebuilder:latest
-- gcr.io/${PROJECT_ID}/vm/imagebuilder:${COMMIT_SHA}
+- gcr.io/${PROJECT_ID}/vm/imagebuilder:sha_${COMMIT_SHA}
