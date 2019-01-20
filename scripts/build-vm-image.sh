@@ -21,6 +21,9 @@ for var in BUCKET CHEF_DIR KEY_FILE_PATH PACKER_BINARY PACKER_DIR PROJECT SOLUTI
   fi
 done
 
+# Print environment variables.
+env
+
 function _register_gcloud_config() {
   local -r config_name="imagebuilder${RANDOM}"
 
@@ -42,12 +45,12 @@ _register_gcloud_config
 
 # Set default value for unset variables.
 # :: These variables are readonly wide.
-readonly RUN_TESTS="${RUN_TESTS:-true}"
-readonly ATTACH_LICENSE="${ATTACH_LICENSE:-true}"
+readonly RUN_TESTS="${RUN_TESTS:-false}"
+readonly ATTACH_LICENSE="${ATTACH_LICENSE:-false}"
 readonly IMAGE_NAME="${IMAGE_NAME:-${SOLUTION_NAME}-v$(($(date +%s%N)/1000000))}"
 # :: These variables are export wide.
 export ZONE="${ZONE:-us-central1-f}"
-export USE_INTERNAL_IP="${USE_INTERNAL_IP:-true}"
+export USE_INTERNAL_IP="${USE_INTERNAL_IP:-false}"
 
 # Set helpful variables.
 # :: These variables are readonly wide.
