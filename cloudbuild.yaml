@@ -34,12 +34,19 @@ steps:
   - --volume=/workspace/service-account.json:/service-account.json:ro
   - imagebuilder
 
-- id: Add Alias Tag
+- id: Retag Image latest
   name: gcr.io/cloud-builders/docker
   args:
   - tag
   - imagebuilder
   - gcr.io/${PROJECT_ID}/vm/imagebuilder:latest
+
+- id: Retag Image COMMIT_SHA
+  name: gcr.io/cloud-builders/docker
+  args:
+  - tag
+  - imagebuilder
+  - gcr.io/${PROJECT_ID}/vm/imagebuilder:${COMMIT_SHA}
 
 images:
 - gcr.io/${PROJECT_ID}/vm/imagebuilder:latest
