@@ -21,9 +21,6 @@ for var in BUCKET CHEF_DIR KEY_FILE_PATH PACKER_BINARY PACKER_DIR PROJECT SOLUTI
   fi
 done
 
-# Print environment variables.
-env
-
 function _register_gcloud_config() {
   local -r config_name="imagebuilder${RANDOM}"
 
@@ -39,6 +36,9 @@ function _register_gcloud_config() {
   gcloud auth activate-service-account --key-file="${KEY_FILE_PATH}"
   gcloud info
 }
+
+# Print environment variables.
+env
 
 # Register a new gcloud configuration.
 _register_gcloud_config
