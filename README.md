@@ -49,9 +49,9 @@ export SOLUTION_NAME=<VM IMAGE TO BE BUILT>
 
 ```shell
 docker run \
-  -v "$PWD/chef:/chef:ro" \
-  -v "$PWD/packer:/packer:ro" \
-  -v "$PWD/tests:/tests:ro" \
+  -v "$PWD/examples/chef:/chef:ro" \
+  -v "$PWD/examples/packer:/packer:ro" \
+  -v "$PWD/examples/tests:/tests:ro" \
   -v "$KEY_FILE_PATH:/service-account.json:ro" \
   -e "PROJECT=$PROJECT" \
   -e "BUCKET=$BUCKET" \
@@ -69,7 +69,7 @@ The mounts required by the `imagebuilder` container include:
 Path                  | Description
 --------------------- | -----------
 /packer               | Packer templates that specify the configuration for the VM image.<br/><br/>The volume must contain a `templates` directory. Your template must be in a subdirectory that matches the `$SOLUTION_NAME` environment variable. The template is expanded with the [`packergen.py`](scripts/packergen.py) script.
-/chef                 | Chef cookbooks used in the build process.<br/><br/>The volume must contain a `cookbooks` directory. Your cookbook must be in its own subdirectory. You specify the name of your cookbook in your Packer template's [`run_list` attribute](examples/packer/templates/sample-app/packer.in.json#4).
+/chef                 | Chef cookbooks used in the build process.<br/><br/>The volume must contain a `cookbooks` directory. Your cookbook must be in its own subdirectory. You specify the name of your cookbook in your Packer template's [`run_list` attribute](examples/packer/templates/sample-app/packer.in.json#L4).
 /tests                | A directory with test specs. The directory must contain an executable Bash script called `run-tests-on-instance.sh`, which is used as an entrypoint. <br/><br/>The return code of this script should indicate the result of tests: for success, return `0`.
 /service-account.json | The JSON key for the GCP service account that you created.<br/><br/> The key is used to set an authentication context for `gcloud` commands and the `packer` binary for managing resources in your GCP project.
 

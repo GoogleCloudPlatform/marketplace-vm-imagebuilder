@@ -1,4 +1,4 @@
-#!/bin/bash -eu
+#!/bin/bash
 #
 # Copyright 2018 Google LLC. All rights reserved.
 #
@@ -12,6 +12,8 @@
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
+
+set -eu
 
 # Ensure all required env vars are supplied.
 for var in BUCKET CHEF_DIR KEY_FILE_PATH PACKER_BINARY PACKER_DIR PROJECT SOLUTION_NAME; do
@@ -68,7 +70,6 @@ echo ">>> Using image name: ${IMAGE_NAME}"
 # Make sure that the images (including pre and published) do not exist.
 "${SCRIPT_DIR}/check-image-existence.sh" || exit 1
 
-chmod +x "${PACKER_BINARY}"
 echo "Packer: $("${PACKER_BINARY}" -v)"
 
 # Build the pre-image with packer.
