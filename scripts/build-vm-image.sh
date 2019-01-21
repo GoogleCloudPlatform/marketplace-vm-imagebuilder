@@ -65,7 +65,6 @@ echo ">>> Using image name: ${IMAGE_NAME}"
 # Make sure that the images (including pre and published) do not exist.
 "${SCRIPT_DIR}/check-image-existence.sh" || exit 1
 
-chmod +x "${PACKER_BINARY}"
 echo "Packer: $("${PACKER_BINARY}" -v)"
 
 # Build the pre-image with packer.
