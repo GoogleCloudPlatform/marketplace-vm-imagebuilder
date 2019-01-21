@@ -49,9 +49,9 @@ export SOLUTION_NAME=<VM IMAGE TO BE BUILT>
 
 ```shell
 docker run \
-  -v "$PWD/chef:/chef:ro" \
-  -v "$PWD/packer:/packer:ro" \
-  -v "$PWD/tests:/tests:ro" \
+  -v "$PWD/examples/chef:/chef:ro" \
+  -v "$PWD/examples/packer:/packer:ro" \
+  -v "$PWD/examples/tests:/tests:ro" \
   -v "$KEY_FILE_PATH:/service-account.json:ro" \
   -e "PROJECT=$PROJECT" \
   -e "BUCKET=$BUCKET" \
