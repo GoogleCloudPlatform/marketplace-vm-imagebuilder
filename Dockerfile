@@ -15,18 +15,12 @@ FROM gcr.io/google-appengine/debian9:latest
 
 ENV PACKER_VERSION 1.0.0
 ENV PACKER_SHA256 ed697ace39f8bb7bf6ccd78e21b2075f53c0f23cdfb5276c380a053a7b906853
-
 ENV PACKER_BINARY /bin/packer
 
 ENV CHEF_DIR /chef
 ENV PACKER_DIR /packer/templates
 ENV TESTS_DIR /tests
-
 ENV KEY_FILE_PATH /service-account.json
-ENV USE_INTERNAL_IP false
-
-ENV RUN_TESTS false
-ENV ATTACH_LICENSE false
 
 # Installs packages
 RUN set -eux \
@@ -55,9 +49,9 @@ RUN set -eux \
     # Unzips binary
     && unzip "packer_${PACKER_VERSION}_linux_amd64.zip" \
     && rm "packer_${PACKER_VERSION}_linux_amd64.zip" \
-    # Copies binary
-    && mv packer /bin/packer \
-    && chmod +x /bin/packer \
+    # Moves binary
+    && mv packer ${PACKER_BINARY} \
+    && chmod +x ${PACKER_BINARY} \
     # Downloads source code
     && curl -L -o packer.tar.gz "https://github.com/hashicorp/packer/archive/v${PACKER_VERSION}.tar.gz" \
     && mkdir -p /usr/local/src/packer \
