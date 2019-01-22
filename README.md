@@ -64,14 +64,14 @@ the sections below.
 
 ## Volume mounts
 
-The mounts required by the `imagebuilder` container include:
+These are the filesystem paths used by the `imagebuilder` container image:
 
-Path                  | Description
---------------------- | -----------
-/packer               | Packer templates that specify the configuration for the VM image.<br/><br/>The volume must contain a `templates` directory. Your template must be in a subdirectory that matches the `$SOLUTION_NAME` environment variable. The template is expanded with the [`packergen.py`](scripts/packergen.py) script.
-/chef                 | Chef cookbooks used in the build process.<br/><br/>The volume must contain a `cookbooks` directory. Your cookbook must be in its own subdirectory. You specify the name of your cookbook in your Packer template's [`run_list` attribute](examples/packer/templates/sample-app/packer.in.json#L4).
-/tests                | A directory with test specs. The directory must contain an executable Bash script called `run-tests-on-instance.sh`, which is used as an entrypoint. <br/><br/>The return code of this script should indicate the result of tests: for success, return `0`.
-/service-account.json | The JSON key for the GCP service account that you created.<br/><br/> The key is used to set an authentication context for `gcloud` commands and the `packer` binary for managing resources in your GCP project.
+Path                  | Description | Required
+--------------------- | ----------- | --------
+/packer               | Packer templates that specify the configuration for the VM image.<br/><br/>The volume must contain a `templates` directory. Your template must be in a subdirectory that matches the `$SOLUTION_NAME` environment variable. The template is expanded with the [`packergen.py`](scripts/packergen.py) script. | Yes
+/chef                 | Chef cookbooks used in the build process.<br/><br/>The volume must contain a `cookbooks` directory. Your cookbook must be in its own subdirectory. You specify the name of your cookbook in your Packer template's [`run_list` attribute](examples/packer/templates/sample-app/packer.in.json#L4). | Yes
+/tests                | A directory with test specs. The directory must contain an executable Bash script called `run-tests-on-instance.sh`, which is used as an entrypoint. <br/><br/>The return code of this script should indicate the result of tests: for success, return `0`. | No
+/service-account.json | The JSON key for the GCP service account that you created.<br/><br/> The key is used to set an authentication context for `gcloud` commands and the `packer` binary for managing resources in your GCP project. | Yes
 
 ## Environment variables
 
