@@ -30,10 +30,20 @@ git clone https://github.com/GoogleCloudPlatform/marketplace-vm-imagebuilder.git
 cd marketplace-vm-imagebuilder
 ```
 
-### Build the Docker image
+### Use the Docker image
+
+You can either build Docker image or pull already built.
+
+To build the `imagebuilder` container image, execute the following `docker` command:
 
 ```shell
 docker build -t imagebuilder .
+```
+  
+However, to pull the `imagebuilder` container image, execute the following `docker` command:
+
+```shell
+docker pull gcr.io/cloud-marketplace-tools/vm/imagebuilder:0.1.0
 ```
 
 ### Set the environment variables for your build environment
