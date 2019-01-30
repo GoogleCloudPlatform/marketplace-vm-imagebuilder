@@ -32,15 +32,15 @@ cd marketplace-vm-imagebuilder
 
 ### Use the Docker image
 
-You can either build Docker image or pull already built.
+You can build the Docker image, or pull an image from the Google Container Registry (GCR) repository.
 
-To build the `imagebuilder` container image, execute the following `docker` command:
+If you want to build the `imagebuilder` container image, run the following `docker` command:
 
 ```shell
 docker build -t imagebuilder .
 ```
   
-However, to pull the `imagebuilder` container image, execute the following `docker` command:
+If you want to pull the `imagebuilder` container image, run the following `docker` command:
 
 ```shell
 docker pull gcr.io/cloud-marketplace-tools/vm/imagebuilder:0.1.0
