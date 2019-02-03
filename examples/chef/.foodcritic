@@ -1,4 +1,6 @@
 # List of disabled Foodcritic rules.
+# http://www.foodcritic.io/
+
 ~FC011
 ~FC055
 ~FC056
