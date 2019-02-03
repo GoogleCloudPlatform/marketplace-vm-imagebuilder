@@ -1,3 +1,5 @@
 language: ruby
 install: gem install foodcritic
-script: foodcritic --cookbook-path=examples/chef/cookbooks --rule-file=examples/chef/.foodcritic --epic-fai=any
+script:
+- foodcritic --version
+- foodcritic --cookbook-path=examples/chef/cookbooks --rule-file=examples/chef/.foodcritic --epic-fai=any
