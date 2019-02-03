@@ -1,1 +1,12 @@
-
+# List of disabled Foodcritic rules.
+~FC011
+~FC055
+~FC056
+~FC062
+~FC064
+~FC065
+~FC066
+~FC068
+~FC069
+~FC071
+~FC078
