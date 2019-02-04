@@ -8,7 +8,7 @@ For an introduction to Chef and Packer, see the documentation for [Chef](https:/
 
 ### Workflow diagram
 
-![Workflow diagram](docs/images/imagebuilder-workflow-diagram.png)
+![Workflow diagram](docs/images/imagebuilder-workflow-diagram.svg)
 
 ## Disclaimer
 
