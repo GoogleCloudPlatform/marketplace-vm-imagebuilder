@@ -6,6 +6,10 @@ This repository hosts Imagebuilder, a tool to automate the build process of VM i
 
 For an introduction to Chef and Packer, see the documentation for [Chef](https://docs.chef.io/cookbooks.html) and [Packer](https://www.packer.io/docs/).
 
+### Workflow diagram
+
+![Workflow diagram](docs/images/imagebuilder-workflow-diagram.png)
+
 ## Disclaimer
 
 This is not an officially supported Google product.
