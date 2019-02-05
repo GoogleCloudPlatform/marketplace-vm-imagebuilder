@@ -13,7 +13,7 @@ For an introduction to Chef and Packer, see the documentation for [Chef](https:/
 ![Workflow diagram](docs/images/imagebuilder-workflow-diagram.svg)
 
 <!-- Save a diagram in SVG format with transparent background,
-and don't include a copy of the diagram -->
+and don't check the "Include a copy of my diagram" option -->
 
 ## Disclaimer
 
