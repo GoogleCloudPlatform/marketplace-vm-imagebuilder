@@ -8,7 +8,12 @@ For an introduction to Chef and Packer, see the documentation for [Chef](https:/
 
 ### Workflow diagram
 
+<!-- Use draw.io as editor. -->
+
 ![Workflow diagram](docs/images/imagebuilder-workflow-diagram.svg)
+
+<!-- Save a diagram in SVG format with transparent background,
+and don't include a copy of the diagram -->
 
 ## Disclaimer
 
@@ -43,7 +48,7 @@ If you want to build the `imagebuilder` container image, run the following `dock
 ```shell
 docker build -t imagebuilder .
 ```
-  
+
 If you want to pull the `imagebuilder` container image, run the following `docker` command:
 
 ```shell
