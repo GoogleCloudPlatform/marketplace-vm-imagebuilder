@@ -51,3 +51,9 @@ gcloud projects add-iam-policy-binding $PROJECT \
   --member serviceAccount:$SERVICE_ACCOUNT@$PROJECT.iam.gserviceaccount.com \
   --role roles/iam.serviceAccountUser
 ```
+
+## Delete the service account
+
+```shell
+gcloud iam service-accounts delete $SERVICE_ACCOUNT --project $PROJECT
+```
