@@ -33,7 +33,6 @@ steps:
   - --env=ATTACH_LICENSE=true
   - --env=LICENSE_PROJECT_NAME=${PROJECT_ID}
   - --env=USE_INTERNAL_IP=true
-  - --env=PUBLISH_TO_PROJECT=${PROJECT_ID}
   - --volume=/workspace/examples/chef:/chef:ro
   - --volume=/workspace/examples/packer:/packer:ro
   - --volume=/workspace/examples/tests:/tests:ro
