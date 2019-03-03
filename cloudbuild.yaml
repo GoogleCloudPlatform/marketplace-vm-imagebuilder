@@ -1,4 +1,6 @@
 timeout: 600s
+options:
+  workerPool: cloud-marketplace-ops-test/gcb-workers-pool
 steps:
 
 - id: Build imagebuilder
