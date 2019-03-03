@@ -92,14 +92,18 @@ while (( ${index} <= ${max_connection_attempts} )); do
   (( index+=1 ))
 done
 
-# Create $IMAGEBUILDER_TEST_DIR directory and upload tests there
-scp -r \
+# Create $IMAGEBUILDER_TEST_DIR directory and upload tests there.
+# To speed up uploading, the tar command is used.
+echo "--> Uploading tests ..."
+tar czf - . | ssh -T -x \
     -i "${PRIVATE_SSH_KEY}" \
     -o UserKnownHostsFile="${TEMPDIR}/known_hosts" \
     -o StrictHostKeyChecking=no \
-    "${TESTS_DIR}" "${USER}@${IP}:${IMAGEBUILDER_TEST_DIR}/"
+    "${USER}@${IP}" \
+    "mkdir -p ${IMAGEBUILDER_TEST_DIR} && tar xzf - -C ${IMAGEBUILDER_TEST_DIR}"
 
 # Run tests
+echo "--> Running tests ..."
 ssh -i "${PRIVATE_SSH_KEY}" \
     -o UserKnownHostsFile="${TEMPDIR}/known_hosts" \
     -o StrictHostKeyChecking=no \
