@@ -32,7 +32,7 @@ gcloud iam service-accounts keys create $SERVICE_ACCOUNT-service-account.json \
 
 > The service account JSON key is created and downloaded to the `$SERVICE_ACCOUNT-service-account.json` file.
 
-## Grant permission for the service account
+## Grant permissions for the service account
 
 ```shell
 gcloud projects add-iam-policy-binding $PROJECT \
