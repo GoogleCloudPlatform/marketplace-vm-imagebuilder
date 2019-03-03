@@ -30,7 +30,7 @@ gcloud iam service-accounts keys create $SERVICE_ACCOUNT-service-account.json \
   --iam-account $SERVICE_ACCOUNT@$PROJECT.iam.gserviceaccount.com
 ```
 
-The JSON key is created and downloaded to the `$SERVICE_ACCOUNT-service-account.json` file.
+> The service account JSON key is created and downloaded to the `$SERVICE_ACCOUNT-service-account.json` file.
 
 ## Grant permission for the service account
 
@@ -50,11 +50,4 @@ gcloud projects add-iam-policy-binding $PROJECT \
 gcloud projects add-iam-policy-binding $PROJECT \
   --member serviceAccount:$SERVICE_ACCOUNT@$PROJECT.iam.gserviceaccount.com \
   --role roles/iam.serviceAccountUser
-```
-
-## Delete the service account
-
-```shell
-gcloud iam service-accounts delete $SERVICE_ACCOUNT@$PROJECT.iam.gserviceaccount.com \
-  --project $PROJECT
 ```
