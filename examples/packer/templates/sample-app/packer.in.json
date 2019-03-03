@@ -1,4 +1,5 @@
 {
+  "license": "imagebuilder-license",
   "source_image_family": "debian-9",
   "chef": {
     "run_list": [ "sample-app" ]
