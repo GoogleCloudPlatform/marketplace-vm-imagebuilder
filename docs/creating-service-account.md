@@ -1,7 +1,7 @@
 # Creating Imagebuilder service account
 
 You can use [Google Cloud Shell](https://cloud.google.com/shell/) or a local workstation in the
-future instructions.
+further instructions.
 
 [![Open in Cloud Shell](http://gstatic.com/cloudssh/images/open-btn.svg)](https://console.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https://github.com/GoogleCloudPlatform/marketplace-vm-imagebuilder&cloudshell_tutorial=docs/creating-service-account.md)
 
