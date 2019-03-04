@@ -6,6 +6,15 @@ This repository hosts Imagebuilder, a tool to automate the build process of VM i
 
 For an introduction to Chef and Packer, see the documentation for [Chef](https://docs.chef.io/cookbooks.html) and [Packer](https://www.packer.io/docs/).
 
+### Workflow diagram
+
+<!-- Use draw.io as editor. -->
+
+![Workflow diagram](docs/images/imagebuilder-workflow-diagram.svg)
+
+<!-- Save a diagram in SVG format with transparent background,
+and don't check the "Include a copy of my diagram" option -->
+
 ## Disclaimer
 
 This is not an officially supported Google product.
@@ -39,7 +48,7 @@ If you want to build the `imagebuilder` container image, run the following `dock
 ```shell
 docker build -t imagebuilder .
 ```
-  
+
 If you want to pull the `imagebuilder` container image, run the following `docker` command:
 
 ```shell
