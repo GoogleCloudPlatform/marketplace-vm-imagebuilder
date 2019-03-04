@@ -1,4 +1,6 @@
 timeout: 600s
+options:
+  workerPool: cloud-marketplace-ops-test/gcb-workers-pool
 steps:
 
 - id: Build imagebuilder
@@ -28,6 +30,9 @@ steps:
   - --env=BUCKET=${_LOGS_BUCKET}
   - --env=SOLUTION_NAME=sample-app
   - --env=RUN_TESTS=true
+  - --env=ATTACH_LICENSE=true
+  - --env=LICENSE_PROJECT_NAME=${PROJECT_ID}
+  - --env=USE_INTERNAL_IP=true
   - --volume=/workspace/examples/chef:/chef:ro
   - --volume=/workspace/examples/packer:/packer:ro
   - --volume=/workspace/examples/tests:/tests:ro
