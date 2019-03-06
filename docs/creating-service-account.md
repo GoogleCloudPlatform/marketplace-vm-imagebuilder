@@ -1,4 +1,4 @@
-# Creating Imagebuilder service account
+# Creating the Imagebuilder service account
 
 You can use [Google Cloud Shell](https://cloud.google.com/shell/) or your local workstation to complete these steps.
 
