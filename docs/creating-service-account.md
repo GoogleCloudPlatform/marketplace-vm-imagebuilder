@@ -1,7 +1,6 @@
 # Creating Imagebuilder service account
 
-You can use [Google Cloud Shell](https://cloud.google.com/shell/) or a local workstation in the
-further instructions.
+You can use [Google Cloud Shell](https://cloud.google.com/shell/) or your local workstation to complete these steps.
 
 [![Open in Cloud Shell](http://gstatic.com/cloudssh/images/open-btn.svg)](https://console.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https://github.com/GoogleCloudPlatform/marketplace-vm-imagebuilder&cloudshell_tutorial=docs/creating-service-account.md)
 
@@ -21,7 +20,7 @@ export PROJECT=<YOUR GCP PROJECT>
 
 ## Create the service account
 
-To create the service account, execute the following command:
+To create the service account, run the following command:
 
 ```bash
 gcloud iam service-accounts create $SERVICE_ACCOUNT \
@@ -31,7 +30,7 @@ gcloud iam service-accounts create $SERVICE_ACCOUNT \
 
 ## Create the service account key
 
-To create and download the service account key, execute the following command:
+To create and download the service account key, run the following command:
 
 ```bash
 gcloud iam service-accounts keys create $SERVICE_ACCOUNT-service-account.json \
@@ -39,11 +38,11 @@ gcloud iam service-accounts keys create $SERVICE_ACCOUNT-service-account.json \
   --iam-account $SERVICE_ACCOUNT@$PROJECT.iam.gserviceaccount.com
 ```
 
-The service account JSON key is created and downloaded to the `$SERVICE_ACCOUNT-service-account.json` file.
+The service account JSON key is created and downloaded as `$SERVICE_ACCOUNT-service-account.json`.
 
-## Grant permissions for the service account
+## Grant permissions to the service account
 
-To grant permissions for the service account, execute the following commands:
+To grant permissions to the service account, run the following commands:
 
 ```bash
 gcloud projects add-iam-policy-binding $PROJECT \
