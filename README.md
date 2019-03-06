@@ -25,7 +25,7 @@ This is not an officially supported Google product.
   the account. For steps to create a service account, see the [IAM
   documentation](https://cloud.google.com/iam/docs/creating-managing-service-account-keys). For steps to create and download a service account's key, see [Creating and Managing Service Account Keys](https://cloud.google.com/iam/docs/creating-managing-service-account-keys).
 
-  For detailed information, see the [Creating Imagebuilder service account](docs/creating-service-account.md) instructions.
+  For detailed steps to create the service account and keys, see [Creating the Imagebuilder service account](docs/creating-service-account.md).
 
 * Create a Google Cloud Storage (GCS) bucket to store your build logs. For steps
   to create a GCS bucket, see the [GCS documentation](https://cloud.google.com/storage/docs/creating-buckets).
