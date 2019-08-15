@@ -20,10 +20,10 @@ import sys
 
 # Install chef-solo via deb package.
 INSTALL_CHEF_SOLO = r"""
-declare -r VERSION=13.2.20
-declare -r SHA256=08baf2fc11302c184c6f39db3ab5457dcf369e09dca9025af91381b17a09f0a6
+declare -r VERSION=15.2.20
+declare -r SHA256=91ca8a0fec30394d11391cdb402bdfb1b8528652a79a2d0ac1224e35fdec383b
 
-curl "https://packages.chef.io/files/stable/chef/${VERSION}/debian/8/chef_${VERSION}-1_amd64.deb" -o chef-solo.deb \
+curl "https://packages.chef.io/files/stable/chef/${VERSION}/debian/9/chef_${VERSION}-1_amd64.deb" -o chef-solo.deb \
   && echo "${SHA256} chef-solo.deb" | sha256sum -c \
   && sudo dpkg --install chef-solo.deb
 """
