@@ -191,9 +191,9 @@ A Packer template is a JSON file that supports the following attributes:
 
 Attribute             | Type   | Required
 --------------------- | ------ | --------
-`chef`                | dict   | No
+`chef`                | dict   | Yes
 `image_family`        | string | No
-`license`             | string | Yes
+`license`             | string | No
 `source_image_family` | string | Yes
 
 For example:
