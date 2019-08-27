@@ -58,7 +58,7 @@ gcloud_output="$(gcloud compute instances create "${INSTANCE}" \
   --description="New instance created by VM Imagebuilder tests" \
   --metadata=block-project-ssh-keys=true,ssh-keys="${USER}:$(cat "${PUBLIC_SSH_KEY}")","${TESTS_CUSTOM_METADATA}" \
   --machine-type=n1-standard-1 \
-  --labels=auto=test,image=${PRE_IMAGE},instance=vm_imagebuilder_tests \
+  --labels=auto=test,image=${PRE_IMAGE},instance=vm-imagebuilder-tests \
   --tags=imagebuilder-workers \
   --format=text)"
 
