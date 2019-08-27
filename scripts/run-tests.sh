@@ -36,7 +36,7 @@ export USER="${USER:-imagebuilder}"
 # Multiple arguments can be passed and has to be separated by a comma.
 readonly TESTS_CUSTOM_METADATA="${TESTS_CUSTOM_METADATA:-}"
 
-readonly INSTANCE="imagebuilder-tests-${PRE_IMAGE}-${RANDOM}"
+readonly INSTANCE ="$(echo "imagebuilder-tests-${PRE_IMAGE}-${RANDOM}" | md5sum | awk '{ print $1 }')"
 # $IMAGEBUILDER_TEST_DIR: temporary dir on vm.
 readonly IMAGEBUILDER_TEST_DIR=$(mktemp --dry-run /tmp/imagebuilder-tests.XXXXXX)
 
@@ -55,10 +55,10 @@ echo "--> Creating a temporary instance (${INSTANCE}) ..."
 gcloud_output="$(gcloud compute instances create "${INSTANCE}" \
   --image="${PRE_IMAGE}" \
   --zone="${ZONE}" \
-  --description="New instance created by imagebuilder tests" \
+  --description="New instance created by VM Imagebuilder tests" \
   --metadata=block-project-ssh-keys=true,ssh-keys="${USER}:$(cat "${PUBLIC_SSH_KEY}")","${TESTS_CUSTOM_METADATA}" \
   --machine-type=n1-standard-1 \
-  --labels=auto=test \
+  --labels=auto=test,image=${PRE_IMAGE},instance=vm_imagebuilder_tests \
   --tags=imagebuilder-workers \
   --format=text)"
 
