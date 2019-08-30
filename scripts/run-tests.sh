@@ -36,7 +36,8 @@ export USER="${USER:-imagebuilder}"
 # Multiple arguments can be passed and has to be separated by a comma.
 readonly TESTS_CUSTOM_METADATA="${TESTS_CUSTOM_METADATA:-}"
 
-readonly INSTANCE=$(echo "imagebuilder-tests-${PRE_IMAGE}-${RANDOM}" | md5sum | awk '{ print $1 }')
+# $INSTANCE: random 32 character name given to the instance used for testing.
+readonly INSTANCE=$(cat /dev/urandom | tr -dc 'a-z' | fold -w 32 | head -n 1)
 # $IMAGEBUILDER_TEST_DIR: temporary dir on vm.
 readonly IMAGEBUILDER_TEST_DIR=$(mktemp --dry-run /tmp/imagebuilder-tests.XXXXXX)
 
