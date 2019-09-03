@@ -54,8 +54,8 @@ docker build -t imagebuilder .
 If you want to pull the `imagebuilder` container image, run the following `docker` command:
 
 ```shell
-docker pull gcr.io/cloud-marketplace-tools/vm/imagebuilder:0.1.1
-docker tag gcr.io/cloud-marketplace-tools/vm/imagebuilder:0.1.1 imagebuilder
+docker pull gcr.io/cloud-marketplace-tools/vm/imagebuilder:0.1.2
+docker tag gcr.io/cloud-marketplace-tools/vm/imagebuilder:0.1.2 imagebuilder
 ```
 
 ### Set the environment variables for your build environment
