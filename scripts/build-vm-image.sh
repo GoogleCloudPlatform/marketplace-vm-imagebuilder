@@ -16,26 +16,41 @@
 set -eu
 
 # Ensure all required env vars are supplied.
-for var in BUCKET CHEF_DIR KEY_FILE_PATH PACKER_BINARY PACKER_DIR PROJECT SOLUTION_NAME; do
+for var in BUCKET CHEF_DIR PACKER_BINARY PACKER_DIR PROJECT SOLUTION_NAME; do
   if ! [[ -v "${var}" ]]; then
     echo "${var} env variable is required"
     exit 1
   fi
 done
 
+if [[ ! -v KEY_FILE_PATH ]] && [[ ! -d "${HOME}/.config/gcloud" ]]; then
+  echo "Either the KEY_FILE_PATH must be set or ~/.config/gcloud must be mounted."
+  exit 1
+fi
+
+if [[ -d "${HOME}/.config/gcloud" ]] && [[ ! -v SERVICE_ACCOUNT_EMAIL ]]; then
+  echo "It appears you have mounted local credentials.  Therefore a SERVICE_ACCOUNT_EMAIL must be specified."
+  exit 1
+fi
+
 function _register_gcloud_config() {
-  local -r config_name="imagebuilder${RANDOM}"
+  
+  # If a service account e-mail is not specified, assume a KEY_FILE is being used.
+  if [[ ! -v SERVICE_ACCOUNT_EMAIL ]]; then
+    local -r config_name="imagebuilder${RANDOM}"
 
-  gcloud config configurations create "${config_name}" --no-activate
+    gcloud config configurations create "${config_name}" --no-activate
 
-  # CLOUDSDK_ACTIVE_CONFIG_NAME env sets active gcloud configuration within this shell session.
-  export CLOUDSDK_ACTIVE_CONFIG_NAME="${config_name}"
+    # CLOUDSDK_ACTIVE_CONFIG_NAME env sets active gcloud configuration within this shell session.
+    export CLOUDSDK_ACTIVE_CONFIG_NAME="${config_name}"
 
-  # This trap removes the configuration after the end of program life.
-  trap "unset CLOUDSDK_ACTIVE_CONFIG_NAME && gcloud config configurations delete ${config_name} -q" EXIT
+    # This trap removes the configuration after the end of program life.
+    trap "unset CLOUDSDK_ACTIVE_CONFIG_NAME && gcloud config configurations delete ${config_name} -q" EXIT
 
-  gcloud config set project "${PROJECT}"
-  gcloud auth activate-service-account --key-file="${KEY_FILE_PATH}"
+    gcloud config set project "${PROJECT}"
+
+    gcloud auth activate-service-account --key-file="${KEY_FILE_PATH}"
+  fi
   gcloud info
 }
 
@@ -70,19 +85,31 @@ echo ">>> Using image name: ${IMAGE_NAME}"
 # Make sure that the images (including pre and published) do not exist.
 "${SCRIPT_DIR}/check-image-existence.sh" || exit 1
 
+# Create template
+python "${SCRIPT_DIR}/packergen.py" "${INPUT_TEMPLATE}" > /tmp/template.json
+
+cat /tmp/template.json
+
 echo "Packer: $("${PACKER_BINARY}" -v)"
 
-# Build the pre-image with packer.
-"${PACKER_BINARY}" build -color=false \
-  -var "chefdir=${CHEF_DIR}" \
-  -var "keyfile=${KEY_FILE_PATH}" \
-  -var "project=${PROJECT}" \
-  -var "zone=${ZONE}" \
-  -var "imagename=${PRE_IMAGE}" \
-  -var "use_internal_ip=${USE_INTERNAL_IP}" \
-  -var "log_bucket=${BUCKET}/logs" \
-  -var "ssh_username=${PACKER_SSH_USERNAME}" \
-  <(python "${SCRIPT_DIR}/packergen.py" "${INPUT_TEMPLATE}")
+# Build the packer command
+PACKER_COMMAND=("${PACKER_BINARY}" build -color=false)
+PACKER_COMMAND+=(-var "chefdir=${CHEF_DIR}")
+if [[ -v SERVICE_ACCOUNT_EMAIL ]]; then
+  PACKER_COMMAND+=(-var "service_account_email=${SERVICE_ACCOUNT_EMAIL}")
+else
+  PACKER_COMMAND+=(-var "keyfile=${KEY_FILE_PATH}")
+fi
+PACKER_COMMAND+=(-var "project=${PROJECT}")
+PACKER_COMMAND+=(-var "zone=${ZONE}")
+PACKER_COMMAND+=(-var "imagename=${PRE_IMAGE}")
+PACKER_COMMAND+=(-var "use_internal_ip=${USE_INTERNAL_IP}")
+PACKER_COMMAND+=(-var "log_bucket=${BUCKET}/logs")
+PACKER_COMMAND+=(-var "ssh_username=${PACKER_SSH_USERNAME}")
+PACKER_COMMAND+=(/tmp/template.json)
+
+echo "${PACKER_COMMAND[@]}"
+"${PACKER_COMMAND[@]}"
 
 # Label an instance.
 gcloud beta compute images add-labels "${PRE_IMAGE}" --labels="auto=pre"
