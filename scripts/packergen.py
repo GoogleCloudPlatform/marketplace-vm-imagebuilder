@@ -79,6 +79,9 @@ echo "--> Stopping syslog service..."
 systemctl disable rsyslog.service
 systemctl stop rsyslog.service
 systemctl enable rsyslog.service
+
+echo "--> Stopping Google services..."
+systemctl stop google-guest-agent.service
 """
 
 VERIFY_SHUTDOWN_SCRIPT = r"""
