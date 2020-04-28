@@ -81,14 +81,9 @@ systemctl stop rsyslog.service
 systemctl enable rsyslog.service
 
 echo "--> Stopping Google services..."
-# See https://github.com/GoogleCloudPlatform/compute-image-packages/tree/master/packages/python-google-compute-engine#configuration
-instance_config=/etc/default/instance_configs.cfg.template
-cat << EOF > "$instance_config"
-[Daemons]
-accounts_daemon = false
-EOF
-/usr/bin/google_instance_setup
-rm "$instance_config"
+# We need to stop google services to avoid accidental creation of
+# by the account daemon
+systemctl stop google-guest-agent.service
 """
 
 VERIFY_SHUTDOWN_SCRIPT = r"""
