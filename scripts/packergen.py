@@ -79,10 +79,6 @@ echo "--> Stopping syslog service..."
 systemctl disable rsyslog.service
 systemctl stop rsyslog.service
 systemctl enable rsyslog.service
-
-echo "--> Stopping Google services..."
-systemctl stop google-accounts-daemon.service
-systemctl stop google-instance-setup.service
 """
 
 VERIFY_SHUTDOWN_SCRIPT = r"""
