@@ -83,6 +83,8 @@ systemctl enable rsyslog.service
 echo "--> Stopping Google services..."
 # We need to stop google services to avoid accidental creation of
 # by the account daemon
+# Reference to google-guest-agent 
+# https://github.com/GoogleCloudPlatform/compute-image-packages/tree/master/packages/python-google-compute-engine
 systemctl stop google-guest-agent.service
 """
 
