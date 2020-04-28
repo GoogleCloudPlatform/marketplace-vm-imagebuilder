@@ -72,7 +72,7 @@ find /root/ -mindepth 1 ! -name .profile ! -name .bashrc -delete
 
 STOP_SERVICES_SCRIPT = r"""
 echo "--> Stopping syslog service..."
-# Syslog is restarts on failure by default. Needed actions:
+# Syslog is restarted on failure by default. Needed actions:
 #  - disable
 #  - stop
 #  - enable (syslog is still stopped till next restart)
@@ -81,7 +81,14 @@ systemctl stop rsyslog.service
 systemctl enable rsyslog.service
 
 echo "--> Stopping Google services..."
-systemctl stop google-guest-agent.service
+# See https://github.com/GoogleCloudPlatform/compute-image-packages/tree/master/packages/python-google-compute-engine#configuration
+instance_config=/etc/default/instance_configs.cfg.template
+cat << EOF > "$instance_config"
+[Daemons]
+accounts_daemon = false
+EOF
+/usr/bin/google_instance_setup
+rm "$instance_config"
 """
 
 VERIFY_SHUTDOWN_SCRIPT = r"""
