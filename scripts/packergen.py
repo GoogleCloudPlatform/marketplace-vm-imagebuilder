@@ -72,7 +72,7 @@ find /root/ -mindepth 1 ! -name .profile ! -name .bashrc -delete
 
 STOP_SERVICES_SCRIPT = r"""
 echo "--> Stopping syslog service..."
-# Syslog is restarts on failure by default. Needed actions:
+# Syslog is restarted on failure by default. Needed actions:
 #  - disable
 #  - stop
 #  - enable (syslog is still stopped till next restart)
@@ -81,8 +81,11 @@ systemctl stop rsyslog.service
 systemctl enable rsyslog.service
 
 echo "--> Stopping Google services..."
-systemctl stop google-accounts-daemon.service
-systemctl stop google-instance-setup.service
+# We need to stop google services to avoid accidental creation of
+# users by the account daemon
+# Reference to google-guest-agent 
+# https://github.com/GoogleCloudPlatform/compute-image-packages/tree/master/packages/python-google-compute-engine
+systemctl stop google-guest-agent.service
 """
 
 VERIFY_SHUTDOWN_SCRIPT = r"""
