@@ -23,42 +23,50 @@ for var in BUCKET CHEF_DIR PACKER_BINARY PACKER_DIR PROJECT SOLUTION_NAME; do
   fi
 done
 
-if [[ ! -v KEY_FILE_PATH ]] && [[ ! -d "${HOME}/.config/gcloud" ]]; then
-  echo "Either the KEY_FILE_PATH must be set or ~/.config/gcloud must be mounted."
-  exit 1
-fi
-
-if [[ -d "${HOME}/.config/gcloud" ]] && [[ ! -v SERVICE_ACCOUNT_EMAIL ]]; then
-  echo "It appears you have mounted local credentials.  Therefore a SERVICE_ACCOUNT_EMAIL must be specified."
-  exit 1
-fi
 
 function _register_gcloud_config() {
   
-  # If a service account e-mail is not specified, assume a KEY_FILE is being used.
-  if [[ ! -v SERVICE_ACCOUNT_EMAIL ]]; then
-    local -r config_name="imagebuilder${RANDOM}"
+  local -r config_name="imagebuilder${RANDOM}"
 
-    gcloud config configurations create "${config_name}" --no-activate
+  gcloud config configurations create "${config_name}" --no-activate
 
-    # CLOUDSDK_ACTIVE_CONFIG_NAME env sets active gcloud configuration within this shell session.
-    export CLOUDSDK_ACTIVE_CONFIG_NAME="${config_name}"
+  # CLOUDSDK_ACTIVE_CONFIG_NAME env sets active gcloud configuration within this shell session.
+  export CLOUDSDK_ACTIVE_CONFIG_NAME="${config_name}"
 
-    # This trap removes the configuration after the end of program life.
-    trap "unset CLOUDSDK_ACTIVE_CONFIG_NAME && gcloud config configurations delete ${config_name} -q" EXIT
+  # This trap removes the configuration after the end of program life.
+  trap "unset CLOUDSDK_ACTIVE_CONFIG_NAME && gcloud config configurations delete ${config_name} -q" EXIT
 
-    gcloud config set project "${PROJECT}"
+  gcloud config set project "${PROJECT}"
 
-    gcloud auth activate-service-account --key-file="${KEY_FILE_PATH}"
-  fi
-  gcloud info
 }
+
+
+if [[ -v SERVICE_ACCOUNT_EMAIL ]]; then
+  # Since the service account e-mail is specified, ensure the 
+  # ~/.config/gcloud directory is mounted
+  if [[ ! -d "${HOME}/.config/gcloud" ]]; then
+    echo "It appears you have specified a service account e-mail.  ~/.config/gcloud must be mounted."
+    exit 1
+  fi
+  # If it is mounted, register gcloud
+  _register_gcloud_config
+else
+  # If the service account e-mail is not specified, check that the 
+  # key file is mounted.
+  if [[ ! -f  $KEY_FILE_PATH ]]; then
+    echo "Either the KEY_FILE_PATH or SERVICE_ACCOUNT_EMAIL must be set."
+    exit 1
+  fi
+  # If it is mounted, register gcloud
+  _register_gcloud_config
+  # Activate the service account with the key file.
+  gcloud auth activate-service-account --key-file="${KEY_FILE_PATH}"
+fi
 
 # Print environment variables.
 env
 
-# Register a new gcloud configuration.
-_register_gcloud_config
+gcloud info
 
 # Set default value for unset variables.
 # :: These variables are readonly wide.
@@ -87,8 +95,6 @@ echo ">>> Using image name: ${IMAGE_NAME}"
 
 # Create template
 python "${SCRIPT_DIR}/packergen.py" "${INPUT_TEMPLATE}" > /tmp/template.json
-
-cat /tmp/template.json
 
 echo "Packer: $("${PACKER_BINARY}" -v)"
 
