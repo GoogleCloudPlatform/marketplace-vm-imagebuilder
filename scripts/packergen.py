@@ -139,6 +139,7 @@ def main():
   builder = {
       'type': 'googlecompute',
       'account_file': '{{ user `keyfile` }}',
+      'service_account_email': '{{ user `service_account_email` }}',
       'project_id': '{{ user `project` }}',
       'zone': '{{ user `zone` }}',
       'ssh_username': '{{ user `ssh_username` }}',
@@ -160,7 +161,6 @@ def main():
   content = {
       'variables': {
           'chefdir': None,
-          'keyfile': None,
           'project': None,
           'zone': None,
           'imagename': None,
