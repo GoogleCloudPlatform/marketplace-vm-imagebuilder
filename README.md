@@ -189,12 +189,12 @@ The following environment variables are **optional**:
 
 A Packer template is a JSON file that supports the following attributes:
 
-Attribute             | Type   | Required
---------------------- | ------ | --------
-`chef`                | dict   | Yes
-`image_family`        | string | No
-`license`             | string | No
-`source_image_family` | string | Yes
+Attribute             | Type   | Required | Description
+--------------------- | ------ | -------- |------------
+`chef`                | dict   | Yes      | Chef config, used mostly for the run_list property to define the recipies to run
+`source_image_family` | string | Yes      | The image family to be used as a base image to run Packer build
+`license`             | string | No       | VM image license name to be attached - for Marketplace it should match an exisiting VM solution name
+`image_family`        | string | No       | The image_family to include the final image in
 
 For example:
 
