@@ -50,7 +50,6 @@ fi
 echo "--> Cleaning home directories..."
 for user in $(cat /var/lib/google/google_users); do
   echo "---> Checking user $user ..."
-
   pkill -u $user || echo "  > $user: NO PROCESS TO KILL..."
   userdel -r $user && echo "  > $user: REMOVED"
   if [[ "$?" -ne 0 ]]; then
