@@ -49,8 +49,14 @@ fi
 
 echo "--> Cleaning home directories..."
 for user in $(cat /var/lib/google/google_users); do
-  pkill -u $user sshd || echo "  > $user: NO PROCESS TO KILL..."
+  echo "---> Checking user $user ..."
+
+  pkill -u $user || echo "  > $user: NO PROCESS TO KILL..."
   userdel -r $user && echo "  > $user: REMOVED"
+  if [[ "$?" -ne 0 ]]; then
+    echo "  > User could not be deleted. Check running processes..."
+    ps aux | grep "${user}"
+  fi
 done
 
 echo "--> Removing google_users file..."
@@ -83,7 +89,7 @@ systemctl enable rsyslog.service
 echo "--> Stopping Google services..."
 # We need to stop google services to avoid accidental creation of
 # users by the account daemon
-# Reference to google-guest-agent 
+# Reference to google-guest-agent
 # https://github.com/GoogleCloudPlatform/compute-image-packages/tree/master/packages/python-google-compute-engine
 systemctl stop google-guest-agent.service
 """
