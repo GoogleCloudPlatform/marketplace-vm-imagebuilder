@@ -61,7 +61,6 @@ docker tag gcr.io/cloud-marketplace-tools/vm/imagebuilder:0.1.2 imagebuilder
 ### Set the environment variables for your build environment
 
 ```shell
-export KEY_FILE_PATH=<ABSOLUTE PATH FOR THE SERVICE ACCOUNT KEY>
 export PROJECT=<YOUR GCP PROJECT>
 export BUCKET=<GCS BUCKET NAME TO STORE BUILD LOGS>
 export SOLUTION_NAME=<VM IMAGE TO BE BUILT>
@@ -69,7 +68,15 @@ export SOLUTION_NAME=<VM IMAGE TO BE BUILT>
 
 ### Run the build process
 
+The build is executed in the imagebuild container using a service account for authentication.
+Authentication can be done using the service account key or local credentials as explained below.
+
+#### Using Service Account Key
+
+The service account key allows imagebuild to authenticate to GCP. If the key is available, mount a volume in the docker command, as below:
+
 ```shell
+export KEY_FILE_PATH=<ABSOLUTE PATH FOR THE SERVICE ACCOUNT KEY>
 docker run \
   -v "$PWD/examples/chef:/chef:ro" \
   -v "$PWD/examples/packer:/packer:ro" \
@@ -81,8 +88,31 @@ docker run \
   imagebuilder
 ```
 
-For detailed information on the Docker volumes and environment variables, see
-the sections below.
+#### Using Service Account Name and local credentials
+
+The service account key might not be available when executing locally for manual testing. In this case, login with gcloud and mount the credentials to the container.
+
+```
+gcloud auth application-default login
+```
+
+Follow instructions to get authentication token and complete the login. 
+
+Set the env variable `SERVICE_ACCOUNT_EMAIL` and mount the gcloud config into `/root/.config/gcloud` when executig the docker command:
+
+```shell
+export SERVICE_ACCOUNT_EMAIL=serviceaccountname@projectname.iam.gserviceaccount.com
+docker run \
+  -v "$PWD/examples/chef:/chef:ro" \
+  -v "$PWD/examples/packer:/packer:ro" \
+  -v "$PWD/examples/tests:/tests:ro" \
+  -v "$HOME/.config/gcloud:/root/.config/gcloud" \
+  -e "PROJECT=$PROJECT" \
+  -e "SERVICE_ACCOUNT_EMAIL=$SERVICE_ACCOUNT_EMAIL" \
+  -e "BUCKET=$BUCKET" \
+  -e "SOLUTION_NAME=wordpress" \
+  imagebuilder
+```
 
 ## Volume mounts
 
