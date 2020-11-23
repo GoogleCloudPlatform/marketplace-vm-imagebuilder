@@ -25,7 +25,7 @@ done
 
 
 function _register_gcloud_config() {
-  
+
   local -r config_name="imagebuilder${RANDOM}"
 
   gcloud config configurations create "${config_name}" --no-activate
@@ -42,7 +42,7 @@ function _register_gcloud_config() {
 
 
 if [[ -v SERVICE_ACCOUNT_EMAIL ]]; then
-  # Since the service account e-mail is specified, ensure the 
+  # Since the service account e-mail is specified, ensure the
   # ~/.config/gcloud directory is mounted
   if [[ ! -d "${HOME}/.config/gcloud" ]]; then
     echo "It appears you have specified a service account e-mail.  ~/.config/gcloud must be mounted."
@@ -51,7 +51,7 @@ if [[ -v SERVICE_ACCOUNT_EMAIL ]]; then
   # If it is mounted, register gcloud
   _register_gcloud_config
 else
-  # If the service account e-mail is not specified, check that the 
+  # If the service account e-mail is not specified, check that the
   # key file is mounted.
   if [[ ! -f  $KEY_FILE_PATH ]]; then
     echo "Either the KEY_FILE_PATH or SERVICE_ACCOUNT_EMAIL must be set."
