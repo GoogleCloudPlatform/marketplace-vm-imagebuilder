@@ -138,6 +138,7 @@ def main():
 
   builder = {
       'type': 'googlecompute',
+      'machine_type': 'e2-standard-2',
       'account_file': '{{ user `keyfile` }}',
       'service_account_email': '{{ user `service_account_email` }}',
       'project_id': '{{ user `project` }}',
