@@ -147,6 +147,7 @@ def main():
       'use_internal_ip': '{{ user `use_internal_ip` }}',
       'instance_name': 'imagebuilder-{{uuid}}',
       'metadata': {
+          'block-project-ssh-keys': 'true',
           'shutdown-script': SHUTDOWN_SCRIPT,
           'shutdown-script-log-name': '{{ user `shutdown_log_name` }}',
           'shutdown-script-log-bucket': '{{ user `log_bucket` }}',
