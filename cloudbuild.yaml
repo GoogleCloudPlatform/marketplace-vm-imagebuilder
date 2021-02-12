@@ -1,6 +1,6 @@
 timeout: 600s
 options:
-  workerPool: ${PROJECT_ID}/gcb-workers-pool
+  workerPool: projects/${PROJECT_ID}/locations/us-central1/workerPools/gcb-workers-pool-e2
 steps:
 
 - id: Build imagebuilder
