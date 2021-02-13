@@ -32,7 +32,6 @@ steps:
   - --env=RUN_TESTS=true
   - --env=ATTACH_LICENSE=true
   - --env=LICENSE_PROJECT_NAME=${PROJECT_ID}
-  - --env=ZONE=us-west1-a
   - --env=USE_INTERNAL_IP=true
   - --volume=/workspace/examples/chef:/chef:ro
   - --volume=/workspace/examples/packer:/packer:ro
