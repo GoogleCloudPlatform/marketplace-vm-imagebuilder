@@ -1,0 +1,17 @@
+substitutions:
+  _STAGING_PROJECT_ID: null
+
+steps:
+- id: Publish Images
+  name: gcr.io/cloud-builders/docker
+  waitFor:
+  - '-'
+  entrypoint: bash
+  args:
+  - -ceux
+  - |
+    docker pull gcr.io/$_STAGING_PROJECT_ID/vm/imagebuilder:sha_$COMMIT_SHA
+    docker tag gcr.io/$_STAGING_PROJECT_ID/vm/imagebuilder:sha_$COMMIT_SHA gcr.io/$PROJECT_ID/vm/imagebuilder:$TAG_NAME
+    
+images:
+- gcr.io/${PROJECT_ID}/vm/imagebuilder:$TAG_NAME
