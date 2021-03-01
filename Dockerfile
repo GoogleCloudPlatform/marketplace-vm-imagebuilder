@@ -67,3 +67,7 @@ RUN set -eux \
 COPY scripts /imagebuilder
 
 ENTRYPOINT ["/imagebuilder/build-vm-image.sh"]
+
+
+
+
