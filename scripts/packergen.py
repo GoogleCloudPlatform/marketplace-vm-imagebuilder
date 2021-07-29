@@ -158,8 +158,8 @@ def main():
 
   # Patch actual packer file with allowed attributes from packer.in.json
   for key in ["source_image_family", "image_family", "disk_size"]:
-		if data.get(key):
-			builder[key] = data.get(key)
+    if data.get(key):
+      builder[key] = data.get(key)
 
   content = {
       'variables': {
