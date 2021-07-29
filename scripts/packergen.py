@@ -159,6 +159,8 @@ def main():
     builder['source_image_family'] = data['source_image_family']
   if data.get('image_family'):
     builder['image_family'] = data['image_family']
+  if data.get('disk_size'):
+    builder['disk_size'] = data['disk_size']
 
   content = {
       'variables': {
