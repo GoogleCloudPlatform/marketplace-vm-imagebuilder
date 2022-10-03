@@ -32,7 +32,7 @@ This is not an officially supported Google product.
 
 ## Getting Started
 
-> NOTE: Imagebuilder currently supports Debian 9-based VM images.
+> NOTE: Imagebuilder currently supports Debian based VM images.
 
 ### Clone this repository
 
@@ -54,8 +54,8 @@ docker build -t imagebuilder .
 If you want to pull the `imagebuilder` container image, run the following `docker` command:
 
 ```shell
-docker pull gcr.io/cloud-marketplace-tools/vm/imagebuilder:0.1.2
-docker tag gcr.io/cloud-marketplace-tools/vm/imagebuilder:0.1.2 imagebuilder
+docker pull gcr.io/cloud-marketplace-tools/vm/imagebuilder:0.1.7
+docker tag gcr.io/cloud-marketplace-tools/vm/imagebuilder:0.1.7 imagebuilder
 ```
 
 ### Set the environment variables for your build environment
@@ -231,7 +231,7 @@ For example:
 ```json
 {
   "license": "imagebuilder-test",
-  "source_image_family": "debian-9",
+  "source_image_family": "debian-11",
   "chef": {
     "run_list": [ "sample-app" ]
   }
