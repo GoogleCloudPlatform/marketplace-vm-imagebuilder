@@ -49,8 +49,6 @@ fi
 
 echo "--> Cleaning home directories..."
 for user in $(cat /var/lib/google/google_users | grep -v "root"); do
-  echo "Processes"
-  pgrep -a -u $user
   pkill -u $user || echo "  > $user: NO PROCESS TO KILL..."
   userdel -r $user && echo "  > $user: REMOVED"
 done
