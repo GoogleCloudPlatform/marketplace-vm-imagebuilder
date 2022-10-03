@@ -27,6 +27,7 @@ steps:
   - --volume=/workspace/examples/chef:/chef:ro
   - --volume=/workspace/examples/packer:/packer:ro
   - --volume=/workspace/examples/tests:/tests:ro
+  - --network=cloudbuild
   - imagebuilder
 
 - id: Add latest Tag
