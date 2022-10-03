@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 
-FROM marketplace.gcr.io/google/ubuntu2004
+FROM marketplace.gcr.io/google/debian11
 
 ENV PACKER_VERSION 1.5.5
 ENV PACKER_SHA256 07f28a1a033f4bcd378a109ec1df6742ac604e7b122d0316d2cddb3c2f6c24d1
