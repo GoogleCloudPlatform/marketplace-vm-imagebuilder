@@ -23,7 +23,7 @@ INSTALL_CHEF_SOLO = r"""
 declare -r VERSION=17.6.18
 declare -r SHA256=820629495b992dcf30756e13830860ffaf593af7f203ad8f6719f798fdc60dba
 
-curl "https://packages.chef.io/files/stable/chef/${VERSION}/debian/9/chef_${VERSION}-1_amd64.deb" -o chef-solo.deb \
+curl "https://packages.chef.io/files/stable/chef/${VERSION}/debian/11/chef_${VERSION}-1_amd64.deb" -o chef-solo.deb \
   && echo "${SHA256} chef-solo.deb" | sha256sum -c \
   && sudo dpkg --install chef-solo.deb
 """
@@ -50,6 +50,11 @@ fi
 echo "--> Cleaning home directories..."
 for user in $(cat /var/lib/google/google_users | grep -v "root"); do
   pkill -u $user || echo "  > $user: NO PROCESS TO KILL..."
+  while pgrep -u $user > /dev/null;
+  do
+    sleep 1;
+    echo "> Waiting for $user processes to terminate...";
+  done
   userdel -r $user && echo "  > $user: REMOVED"
 done
 

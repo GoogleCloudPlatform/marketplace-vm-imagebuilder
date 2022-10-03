@@ -42,13 +42,11 @@ function _register_gcloud_config() {
 
 
 if [[ -v SERVICE_ACCOUNT_EMAIL ]]; then
-  # Since the service account e-mail is specified, ensure the
-  # ~/.config/gcloud directory is mounted
-  if [[ ! -d "${HOME}/.config/gcloud" ]]; then
-    echo "It appears you have specified a service account e-mail.  ~/.config/gcloud must be mounted."
+  # Check that the service account is authenticated
+  if ! gcloud auth list --format json | jq -e --arg svcAcct "$SERVICE_ACCOUNT_EMAIL" '.[] | select(.account == $svcAcct)' > /dev/null; then
+    echo "$SERVICE_ACCOUNT_EMAIL is not authenticated."
     exit 1
   fi
-  # If it is mounted, register gcloud
   _register_gcloud_config
 else
   # If the service account e-mail is not specified, check that the
