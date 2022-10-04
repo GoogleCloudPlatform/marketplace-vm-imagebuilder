@@ -10,20 +10,10 @@ steps:
   - --tag=imagebuilder
   - .
 
-- id: Download Service Account Key
-  name: gcr.io/cloud-builders/gsutil
-  waitFor:
-  - '-'
-  args:
-  - cp
-  - ${_SERVICE_ACCOUNT_JSON_GCS}
-  - service-account.json
-
 - id: Build sample-app
   name: gcr.io/cloud-builders/docker
   waitFor:
   - Build imagebuilder
-  - Download Service Account Key
   args:
   - run
   - --env=PROJECT=${PROJECT_ID}
@@ -33,10 +23,11 @@ steps:
   - --env=ATTACH_LICENSE=true
   - --env=LICENSE_PROJECT_NAME=${PROJECT_ID}
   - --env=USE_INTERNAL_IP=true
+  - --env=SERVICE_ACCOUNT_EMAIL=${PROJECT_NUMBER}@cloudbuild.gserviceaccount.com
   - --volume=/workspace/examples/chef:/chef:ro
   - --volume=/workspace/examples/packer:/packer:ro
   - --volume=/workspace/examples/tests:/tests:ro
-  - --volume=/workspace/service-account.json:/service-account.json:ro
+  - --network=cloudbuild
   - imagebuilder
 
 - id: Add latest Tag
