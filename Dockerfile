@@ -13,8 +13,8 @@
 
 FROM marketplace.gcr.io/google/debian11
 
-ENV PACKER_VERSION 1.5.5
-ENV PACKER_SHA256 07f28a1a033f4bcd378a109ec1df6742ac604e7b122d0316d2cddb3c2f6c24d1
+ENV PACKER_VERSION 1.8.3
+ENV PACKER_SHA256 0587f7815ed79589cd9c2b754c82115731c8d0b8fd3b746fe40055d969facba5
 ENV PACKER_BINARY /bin/packer
 
 ENV CHEF_DIR /chef
@@ -30,7 +30,7 @@ RUN set -eux \
         gnupg2 \
         jq \
         openssh-client \
-        python \
+        python3 \
         unzip
 
 # Installs gcloud
