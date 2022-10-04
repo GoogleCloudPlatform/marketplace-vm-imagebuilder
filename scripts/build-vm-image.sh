@@ -92,7 +92,7 @@ echo ">>> Using image name: ${IMAGE_NAME}"
 "${SCRIPT_DIR}/check-image-existence.sh" || exit 1
 
 # Create template
-python "${SCRIPT_DIR}/packergen.py" "${INPUT_TEMPLATE}" > /tmp/template.json
+python3 "${SCRIPT_DIR}/packergen.py" "${INPUT_TEMPLATE}" > /tmp/template.json
 
 echo "Packer: $("${PACKER_BINARY}" -v)"
 
