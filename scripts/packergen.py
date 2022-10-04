@@ -193,7 +193,7 @@ def main():
           _verify_shutdown_script()
       ],
   }
-  print json.dumps(content, sort_keys=True, indent=2)
+  print(json.dumps(content, sort_keys=True, indent=2))
 
   return 0
 
