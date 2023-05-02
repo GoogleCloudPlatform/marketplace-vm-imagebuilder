@@ -42,7 +42,6 @@ function _register_gcloud_config() {
 
 
 if [[ -v SERVICE_ACCOUNT_EMAIL ]]; then
-  # Check that the service account is authenticated
   _register_gcloud_config
 else
   # If the service account e-mail is not specified, check that the
