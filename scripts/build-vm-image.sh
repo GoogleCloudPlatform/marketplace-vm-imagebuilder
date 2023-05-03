@@ -42,11 +42,6 @@ function _register_gcloud_config() {
 
 
 if [[ -v SERVICE_ACCOUNT_EMAIL ]]; then
-  # Check that the service account is authenticated
-  if ! gcloud auth list --format json | jq -e --arg svcAcct "$SERVICE_ACCOUNT_EMAIL" '.[] | select(.account == $svcAcct)' > /dev/null; then
-    echo "$SERVICE_ACCOUNT_EMAIL is not authenticated."
-    exit 1
-  fi
   _register_gcloud_config
 else
   # If the service account e-mail is not specified, check that the
