@@ -20,8 +20,8 @@ import sys
 
 # Install chef-solo via deb package.
 INSTALL_CHEF_SOLO = r"""
-declare -r VERSION=17.6.18
-declare -r SHA256=820629495b992dcf30756e13830860ffaf593af7f203ad8f6719f798fdc60dba
+declare -r VERSION=18.2.7
+declare -r SHA256=a4461840de71f08f11f3c65a6d2f40f41d394e98f84979f7a8388ed0b578c666
 
 curl "https://packages.chef.io/files/stable/chef/${VERSION}/debian/11/chef_${VERSION}-1_amd64.deb" -o chef-solo.deb \
   && echo "${SHA256} chef-solo.deb" | sha256sum -c \
