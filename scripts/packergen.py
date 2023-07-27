@@ -104,6 +104,14 @@ echo "--> Deleting log file..."
 gsutil rm gs://{{ user `log_bucket` }}/{{ user `shutdown_log_name` }}
 """
 
+PACKER_OVERRIDABLE_CONFIG = [
+  "disk_size"
+  "image_family",
+  "machine_type",
+  "source_image_family",
+  "source_image_project_id",
+]
+
 
 def _inline_format(command):
   return command.strip().split('\n')
@@ -160,10 +168,11 @@ def main():
       },
       'tags': ['imagebuilder-workers']
   }
-  if data.get('source_image_family'):
-    builder['source_image_family'] = data['source_image_family']
-  if data.get('image_family'):
-    builder['image_family'] = data['image_family']
+
+  # Overrides the allowed attributes
+  builder.update(
+    {key: data.get(key) for key in PACKER_OVERRIDABLE_CONFIG if key in data}
+  )
 
   content = {
       'variables': {

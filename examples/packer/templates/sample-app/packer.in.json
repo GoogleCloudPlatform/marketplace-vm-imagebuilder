@@ -1,6 +1,7 @@
 {
   "license": "imagebuilder-test",
   "source_image_family": "debian-11",
+  "disk_size": "25gb",
   "chef": {
     "run_list": [ "sample-app" ]
   }
