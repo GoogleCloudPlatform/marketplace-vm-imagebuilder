@@ -26,19 +26,21 @@ ENV KEY_FILE_PATH /service-account.json
 RUN set -eux \
     && apt-get update \
     && apt-get install -y \
+        apt-transport-https \
+        ca-certificates \
         curl \
-        gnupg2 \
+        gnupg \
         jq \
         openssh-client \
         python3 \
         unzip
 
-# Installs gcloud
-RUN set -eux \
-    && export CLOUD_SDK_REPO="cloud-sdk-stretch" \
-    && echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
-    && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - \
-    && apt-get update -y && apt-get install google-cloud-sdk -y
+# Install gcloud (https://cloud.google.com/sdk/docs/install#deb)
+RUN apt-get update \
+    && apt-get -y install apt-transport-https ca-certificates gnupg curl \
+    && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg \
+    && echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
+    && apt-get update && apt-get -y install google-cloud-cli
 
 # Installs Packer
 RUN set -eux \
