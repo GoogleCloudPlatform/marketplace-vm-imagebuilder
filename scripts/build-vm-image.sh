@@ -43,6 +43,7 @@ function _register_gcloud_config() {
 
 if [[ -v SERVICE_ACCOUNT_EMAIL ]]; then
   _register_gcloud_config
+  gcloud config set account "${SERVICE_ACCOUNT_EMAIL}"
 else
   # If the service account e-mail is not specified, check that the
   # key file is mounted.
@@ -58,7 +59,6 @@ fi
 
 # Print environment variables.
 env
-
 gcloud info
 
 # Set default value for unset variables.
