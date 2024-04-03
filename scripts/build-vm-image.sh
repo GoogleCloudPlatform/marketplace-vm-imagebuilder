@@ -42,8 +42,12 @@ function _register_gcloud_config() {
 
 
 if [[ -v SERVICE_ACCOUNT_EMAIL ]]; then
+  declare -r active_account="$(gcloud auth list \
+                                --filter "status:ACTIVE" \
+                                --format "value(account)")"
+
   _register_gcloud_config
-  gcloud config set account "${SERVICE_ACCOUNT_EMAIL}"
+  gcloud config set account "${active_account}"
 else
   # If the service account e-mail is not specified, check that the
   # key file is mounted.
