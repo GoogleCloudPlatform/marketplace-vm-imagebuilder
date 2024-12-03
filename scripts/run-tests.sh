@@ -94,6 +94,12 @@ while (( ${index} <= ${max_connection_attempts} )); do
 done
 
 # Create $IMAGEBUILDER_TEST_DIR directory and upload tests there
+echo "Copying tests to the tester instance..."
+ssh -i "${PRIVATE_SSH_KEY}" \
+    -o UserKnownHostsFile="${TEMPDIR}/known_hosts" \
+    -o StrictHostKeyChecking=no \
+    "${USER}@${IP}" \
+    "/bin/bash -e -c 'mkdir -p "${IMAGEBUILDER_TEST_DIR}"'"
 scp -r \
     -i "${PRIVATE_SSH_KEY}" \
     -o UserKnownHostsFile="${TEMPDIR}/known_hosts" \
@@ -101,11 +107,12 @@ scp -r \
     "${TESTS_DIR}" "${USER}@${IP}:${IMAGEBUILDER_TEST_DIR}/"
 
 # Run tests
+echo "Running tests in tester instance..."
 ssh -i "${PRIVATE_SSH_KEY}" \
     -o UserKnownHostsFile="${TEMPDIR}/known_hosts" \
     -o StrictHostKeyChecking=no \
     "${USER}@${IP}" \
-    "/bin/bash -eu -c 'chmod +x ${IMAGEBUILDER_TEST_DIR}/run-tests-on-instance.sh && PACKER_SSH_USERNAME=${PACKER_SSH_USERNAME} SOLUTION_NAME=${SOLUTION_NAME} ${IMAGEBUILDER_TEST_DIR}/run-tests-on-instance.sh'" \
+    "/bin/bash -eu -c 'chmod +x ${IMAGEBUILDER_TEST_DIR}/tests/run-tests-on-instance.sh && PACKER_SSH_USERNAME=${PACKER_SSH_USERNAME} SOLUTION_NAME=${SOLUTION_NAME} ${IMAGEBUILDER_TEST_DIR}/tests/run-tests-on-instance.sh'" \
       && lcstatus=$? || lcstatus=$?
 
 echo "--> Deleting the temporary instance (${INSTANCE}) ..."
