@@ -95,6 +95,10 @@ python3 "${SCRIPT_DIR}/packergen.py" "${INPUT_TEMPLATE}" > /tmp/template.json
 
 echo "Packer: $("${PACKER_BINARY}" -v)"
 
+# Install googlecompute and chef plugins
+"${PACKER_BINARY}" plugins install github.com/hashicorp/googlecompute
+"${PACKER_BINARY}" plugins install github.com/hashicorp/chef
+
 # Build the packer command
 PACKER_COMMAND=("${PACKER_BINARY}" build -color=false)
 PACKER_COMMAND+=(-var "chefdir=${CHEF_DIR}")

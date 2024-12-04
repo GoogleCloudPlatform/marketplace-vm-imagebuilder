@@ -1,4 +1,4 @@
-timeout: 600s
+timeout: 800s
 options:
   workerPool: projects/${PROJECT_ID}/locations/us-central1/workerPools/gcb-workers-pool-e2
 steps:

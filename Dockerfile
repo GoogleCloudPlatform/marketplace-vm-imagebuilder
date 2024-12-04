@@ -1,4 +1,4 @@
-# Copyright 2018 Google LLC. All rights reserved.
+# Copyright 2024 Google LLC. All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,16 +11,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 
-FROM marketplace.gcr.io/google/debian11
+FROM marketplace.gcr.io/google/debian12
 
-ENV PACKER_VERSION 1.8.3
-ENV PACKER_SHA256 0587f7815ed79589cd9c2b754c82115731c8d0b8fd3b746fe40055d969facba5
-ENV PACKER_BINARY /bin/packer
+ENV PACKER_VERSION=1.11.2
+ENV PACKER_SHA256=ced13efc257d0255932d14b8ae8f38863265133739a007c430cae106afcfc45a
+ENV PACKER_BINARY=/bin/packer
 
-ENV CHEF_DIR /chef
-ENV PACKER_DIR /packer/templates
-ENV TESTS_DIR /tests
-ENV KEY_FILE_PATH /service-account.json
+ENV CHEF_DIR=/chef
+ENV PACKER_DIR=/packer/templates
+ENV TESTS_DIR=/tests
+ENV KEY_FILE_PATH=/service-account.json
 
 # Installs packages
 RUN set -eux \
