@@ -54,8 +54,8 @@ docker build -t imagebuilder .
 If you want to pull the `imagebuilder` container image, run the following `docker` command:
 
 ```shell
-docker pull artifact-registry/cloud-marketplace-tools/vm/imagebuilder:0.1.7
-docker tag artifact-registry/cloud-marketplace-tools/vm/imagebuilder:0.1.7 imagebuilder
+docker pull $ARTIFACT_REGISTRY/cloud-marketplace-tools/vm/imagebuilder:0.1.7
+docker tag $ARTIFACT_REGISTRY/cloud-marketplace-tools/vm/imagebuilder:0.1.7 imagebuilder
 ```
 
 ### Set the environment variables for your build environment
