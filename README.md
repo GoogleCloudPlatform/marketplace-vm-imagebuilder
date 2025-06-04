@@ -43,19 +43,10 @@ cd marketplace-vm-imagebuilder
 
 ### Use the Docker image
 
-You can build the Docker image, or pull an image from the Google Container Registry (GCR) repository.
-
-If you want to build the `imagebuilder` container image, run the following `docker` command:
+To build the `imagebuilder` container image, run the following `docker` command:
 
 ```shell
 docker build -t imagebuilder .
-```
-
-If you want to pull the `imagebuilder` container image, run the following `docker` command:
-
-```shell
-docker pull gcr.io/cloud-marketplace-tools/vm/imagebuilder:0.1.7
-docker tag gcr.io/cloud-marketplace-tools/vm/imagebuilder:0.1.7 imagebuilder
 ```
 
 ### Set the environment variables for your build environment
@@ -96,7 +87,7 @@ The service account key might not be available when executing locally for manual
 gcloud auth application-default login
 ```
 
-Follow instructions to get authentication token and complete the login. 
+Follow instructions to get authentication token and complete the login.
 
 Set the env variable `SERVICE_ACCOUNT_EMAIL` and mount the gcloud config into `/root/.config/gcloud` when executig the docker command:
 
