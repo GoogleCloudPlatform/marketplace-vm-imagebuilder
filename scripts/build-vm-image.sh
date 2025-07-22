@@ -35,9 +35,6 @@ function _register_gcloud_config() {
 
   # This trap removes the configuration after the end of program life.
   trap "unset CLOUDSDK_ACTIVE_CONFIG_NAME && gcloud config configurations delete ${config_name} -q" EXIT
-
-  gcloud config set project "${PROJECT}"
-
 }
 
 
@@ -48,6 +45,7 @@ if [[ -v SERVICE_ACCOUNT_EMAIL ]]; then
 
   _register_gcloud_config
   gcloud config set account "${active_account}"
+  gcloud config set project "${PROJECT}"
 else
   # If the service account e-mail is not specified, check that the
   # key file is mounted.
@@ -58,6 +56,7 @@ else
   # If it is mounted, register gcloud
   _register_gcloud_config
   # Activate the service account with the key file.
+  gcloud config set project "${PROJECT}"
   gcloud auth activate-service-account --key-file="${KEY_FILE_PATH}"
 fi
 
