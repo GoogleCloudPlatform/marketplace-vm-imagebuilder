@@ -16,7 +16,7 @@
 set -eu
 
 # Ensure all required env vars are supplied.
-for var in PRE_IMAGE FINAL_IMAGE ZONE LICENSE LICENSE_PROJECT_NAME; do
+for var in PRE_IMAGE FINAL_IMAGE LICENSE LICENSE_PROJECT_NAME; do
   if ! [[ -v "${var}" ]]; then
     echo "${var} env variable is required"
     exit 1
@@ -25,20 +25,10 @@ done
 
 echo "==> Creating a new image with license attached"
 
-readonly DISK_NAME="${PRE_IMAGE}-disk"
-echo "--> Creating disk with the pre-image..."
-gcloud beta compute disks create "${DISK_NAME}" \
-  --image="${PRE_IMAGE}" \
-  --zone="${ZONE}" \
-  --labels="auto=pre"
-
-echo "--> Creating the image with license..."
-gcloud beta compute images create "${FINAL_IMAGE}" \
-  --source-disk="${DISK_NAME}" \
-  --source-disk-zone="${ZONE}" \
+gcloud compute images create "${FINAL_IMAGE}" \
+  --source-image="${PRE_IMAGE}" \
   --licenses="https://www.googleapis.com/compute/v1/projects/${LICENSE_PROJECT_NAME}/global/licenses/${LICENSE}" \
   --labels="auto=final"
 
-echo "--> Deleting disk and pre-image..."
-gcloud -q compute disks delete "${DISK_NAME}" --zone="${ZONE}"
+echo "--> Deleting pre-image..."
 gcloud -q compute images delete "${PRE_IMAGE}"
