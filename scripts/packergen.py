@@ -66,7 +66,7 @@ find /var/log/ -type f -delete
 
 echo "SHUTDOWN SCRIPT COMPLETED"
 EOF
-) 2>&1 | gsutil -h "Content-Type:text/plain" cp - "gs://$BUCKET/$LOGNAME"
+) 2>&1 | gcloud storage cp - "gs://$BUCKET/$LOGNAME" --content-type="text/plain"
 
 # Cleaning /root/ ...
 # Clean all files except:
@@ -95,13 +95,13 @@ systemctl stop google-guest-agent.service
 
 VERIFY_SHUTDOWN_SCRIPT = r"""
 # Download and display log via streaming transfers
-gsutil cp gs://{{ user `log_bucket` }}/{{ user `shutdown_log_name` }} -
+gcloud storage cp gs://{{ user `log_bucket` }}/{{ user `shutdown_log_name` }} -
 # Verify shutdown script
-gsutil cat gs://{{ user `log_bucket` }}/{{ user `shutdown_log_name` }} \
+gcloud storage cat gs://{{ user `log_bucket` }}/{{ user `shutdown_log_name` }} \
   | egrep -q '^SHUTDOWN SCRIPT COMPLETED$'
 echo "--> Shutdown script execution verified!"
 echo "--> Deleting log file..."
-gsutil rm gs://{{ user `log_bucket` }}/{{ user `shutdown_log_name` }}
+gcloud storage rm gs://{{ user `log_bucket` }}/{{ user `shutdown_log_name` }}
 """
 
 PACKER_OVERRIDABLE_CONFIG = [
