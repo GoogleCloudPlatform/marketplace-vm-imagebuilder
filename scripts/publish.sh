@@ -16,7 +16,7 @@
 set -eu
 
 # Ensure all required env vars are supplied.
-for var in PROJECT FINAL_IMAGE ZONE PUBLISH_TO_PROJECT; do
+for var in PROJECT FINAL_IMAGE PUBLISH_TO_PROJECT; do
   if ! [[ -v "${var}" ]]; then
     echo "${var} env variable is required"
     exit 1
@@ -25,25 +25,9 @@ done
 
 echo "==> Publishing image ${FINAL_IMAGE} to ${PUBLISH_TO_PROJECT}"
 
-readonly DISK_NAME="${FINAL_IMAGE}-disk"
-
-echo "--> Creating disk in the target project..."
-gcloud beta compute disks create "${DISK_NAME}" \
-  --image="${FINAL_IMAGE}" \
-  --image-project="${PROJECT}" \
-  --zone="${ZONE}" \
-  --project="${PUBLISH_TO_PROJECT}" \
-  --labels="auto=publish"
-
-echo "--> Creating image in the target project..."
 gcloud compute images create "${FINAL_IMAGE}" \
-  --source-disk="${DISK_NAME}" \
-  --source-disk-zone="${ZONE}" \
-  --project="${PUBLISH_TO_PROJECT}"
-
-echo "--> Deleting disk..."
-gcloud -q compute disks delete "${DISK_NAME}" \
-  --zone="${ZONE}" \
+  --source-image="${FINAL_IMAGE}" \
+  --source-image-project="${PROJECT}" \
   --project="${PUBLISH_TO_PROJECT}"
 
 echo "==> Image ${FINAL_IMAGE} published to ${PUBLISH_TO_PROJECT}!"
