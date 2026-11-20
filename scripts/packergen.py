@@ -18,14 +18,15 @@ import argparse
 import json
 import sys
 
-# Install chef-solo via deb package.
+# Install chef-solo via Cinc (open-source Chef distribution) deb package.
 INSTALL_CHEF_SOLO = r"""
 declare -r VERSION=18.5.0
-declare -r SHA256=1918e72eebeea0dd2f7680b08f1362d699b37570431ebca3c1b4fbe40cfc2abb
+declare -r SHA256=63f96c82a88f1ffa2a9b5bf4598bb14b600f6f2e743245e5bfa1c12a843e4fc7
 
-curl "https://packages.chef.io/files/stable/chef/${VERSION}/debian/11/chef_${VERSION}-1_amd64.deb" -o chef-solo.deb \
+curl -fsSL "https://packages.cinc.sh/files/stable/cinc/${VERSION}/debian/12/cinc_${VERSION}-1_amd64.deb" -o chef-solo.deb \
   && echo "${SHA256} chef-solo.deb" | sha256sum -c \
-  && sudo dpkg --install chef-solo.deb
+  && sudo dpkg --install chef-solo.deb \
+  && rm -f chef-solo.deb
 """
 
 # GCE VM shutdown-script to clean up the image.
@@ -130,7 +131,7 @@ def _sudo_shell(command):
 
 
 def _purge_chef():
-  return _sudo_shell('apt-get purge -y --auto-remove chef')
+  return _sudo_shell('apt-get purge -y --auto-remove cinc')
 
 
 def _verify_shutdown_script():
